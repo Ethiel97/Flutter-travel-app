@@ -5,10 +5,12 @@ jobs:
       - image: cirrusci/flutter
     steps:
       - checkout
+
       - run: 
-          name: 'Check flutter installation'
+          name: Check flutter installation
           commmand: flutter doctor
 
       - run: 
-          name: 'Test the app'
+          name: Test the app
           command: flutter test
+          
