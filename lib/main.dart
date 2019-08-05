@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'DetailScreen.dart';
 import 'places.dart';
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Flutter Travel',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -45,11 +46,24 @@ class _MyHomePageState extends State<MyHomePage> {
       TextEditingController(text: "Eg, New York, United States");
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    /* SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+
+    SystemChrome.setSystemUIOverlayStyle(
+     SystemUiOverlayStyle(statusBarColor: Colors.white)
+    ); */
+  }
+
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: Material(
-        color: Colors.white,
-        elevation: 2.0,
+        color: Colors.grey.shade50,
+        elevation: 4.0,
         child: Container(
           padding: EdgeInsets.all(12),
           width: MediaQuery.of(context).size.width,
@@ -91,6 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       appBar: AppBar(
+        brightness: Brightness.light,
         elevation: 0.0,
         backgroundColor: Colors.white,
         leading: IconButton(
@@ -143,6 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Container(
             height: 250,
             child: ListView.builder(
+               physics: ClampingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 itemCount: places.length,
                 itemBuilder: (context, index) {
@@ -198,6 +214,7 @@ class _MyHomePageState extends State<MyHomePage> {
 //            height: 120,
             width: MediaQuery.of(context).size.width,
             child: ListView.builder(
+                physics: ClampingScrollPhysics(),
                 shrinkWrap: true,
                 padding: EdgeInsets.only(bottom: 14),
                 itemCount: places.length,
