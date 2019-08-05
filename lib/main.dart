@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Travel',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: 'Montserrat'
       ),
       home: MyHomePage(title: 'Mon application'),
     );
@@ -50,11 +51,11 @@ class _MyHomePageState extends State<MyHomePage> {
     // TODO: implement initState
     super.initState();
 
-    /* SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
 
     SystemChrome.setSystemUIOverlayStyle(
      SystemUiOverlayStyle(statusBarColor: Colors.white)
-    ); */
+    );
   }
 
 
