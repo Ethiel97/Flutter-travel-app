@@ -8,7 +8,7 @@ jobs:
 
       - run: 
           name: Check flutter installation
-          commmand: flutter doctor
+          command: flutter doctor
 
       - run: 
           name: Test the app
