@@ -201,6 +201,7 @@ class _MyHomePageState extends State<MyHomePage> {
         borderRadius: BorderRadius.circular(5),
       ),
       child: TextField(
+        key: Key("Search box"),
         controller: controller,
         decoration: InputDecoration(
 //                  fillColor: Colors.white10,
