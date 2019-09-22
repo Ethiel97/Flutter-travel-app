@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'DetailScreen.dart';
 import 'places.dart';
 
 void main() => runApp(MyApp());
@@ -29,8 +27,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
   @override
   void initState() {
     // TODO: implement initState
@@ -56,14 +52,13 @@ class _MyHomePageState extends State<MyHomePage> {
             height: 34,
           ),
           buildSearchBox(),
-           SizedBox(
+          SizedBox(
             height: 28.0,
           ),
-
           buildLocationsList(),
           buildPlacesList(context)
         ],
-      ), 
+      ),
     );
   }
 
@@ -142,46 +137,38 @@ class _MyHomePageState extends State<MyHomePage> {
 
             return Padding(
               padding: EdgeInsets.only(right: 14),
-              child: InkWell(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => DetailScreen(
-                            place: place,
-                          )));
-                },
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(5),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5)),
-                        height: 178,
-                        width: 180,
-                        child: Image.asset(
-                          "${place["img"]}",
-                          fit: BoxFit.cover,
-                        ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: Container(
+                      decoration:
+                          BoxDecoration(borderRadius: BorderRadius.circular(5)),
+                      height: 178,
+                      width: 180,
+                      child: Image.asset(
+                        "${place["img"]}",
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    SizedBox(
-                      height: 12,
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Text(
+                    "${place["name"]}",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "${place["location"]}",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: Colors.blueGrey,
                     ),
-                    Text(
-                      "${place["name"]}",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      "${place["location"]}",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: Colors.blueGrey,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             );
           }),
@@ -189,12 +176,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Container buildSearchBox() {
-    
-  TextEditingController controller =
-      TextEditingController(text: "Eg, New York, United States");
+    TextEditingController controller =
+        TextEditingController(text: "Eg, New York, United States");
 
     return Container(
-      
       decoration: BoxDecoration(
 //              border: I,
         color: Colors.white70,
