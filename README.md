@@ -1,4 +1,4 @@
-# workshop_test
+# Flutter travel app sample project
 
 A new Flutter project.
 
