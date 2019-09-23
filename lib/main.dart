@@ -41,6 +41,15 @@ class _TravelAppState extends State<TravelApp> {
         SystemUiOverlayStyle(statusBarColor: Colors.white));
   }
 
+  itemClicked() {
+    final SnackBar snackbar = SnackBar(
+      content: Text('Bottom navigation bar item tapped'),
+      backgroundColor: Colors.black,
+    );
+
+    scaffoldKey.currentState.showSnackBar(snackbar);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -188,24 +197,24 @@ class _TravelAppState extends State<TravelApp> {
                 Icons.home,
                 color: Colors.black,
               ),
-              onPressed: () {},
+              onPressed: () => itemClicked(),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () => itemClicked(),
               icon: Icon(
                 Icons.favorite,
                 color: Colors.blueGrey,
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () => itemClicked(),
               icon: Icon(
                 Icons.message,
                 color: Colors.blueGrey,
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () => itemClicked(),
               icon: Icon(
                 Icons.person,
                 color: Colors.blueGrey,
