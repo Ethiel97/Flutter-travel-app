@@ -12,7 +12,7 @@ import 'package:workshop_test/main.dart';
 
 void main() {
   testWidgets('My app has a search box', (WidgetTester tester) async {
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(TravelAppWrapper());
 
     final searchBoxFinder = find.byKey(Key("Search box"));
 

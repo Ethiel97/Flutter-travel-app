@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:workshop_test/placeWidget.dart';
+import 'locationWidget.dart';
 import 'places.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(TravelAppWrapper());
 
-class MyApp extends StatelessWidget {
+class TravelAppWrapper extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -12,24 +14,25 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Travel',
       theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Montserrat'),
-      home: MyHomePage(title: 'Mon application'),
+      home: TravelApp(title: 'Mon application'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class TravelApp extends StatefulWidget {
+  TravelApp({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _TravelAppState createState() => _TravelAppState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _TravelAppState extends State<TravelApp> {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
@@ -41,6 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       bottomNavigationBar: buildBottomNavigationBar(context),
       appBar: buildAppBar(),
       backgroundColor: Colors.white,
@@ -71,56 +75,9 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: EdgeInsets.only(bottom: 14),
           itemCount: places.length,
           itemBuilder: (context, index) {
-            Map place = places.toList()[index];
+            Place place = places.toList()[index];
 
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 14.0),
-              child: Row(
-                children: <Widget>[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(5),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      height: 80,
-                      width: 80,
-                      child: Image.asset(
-                        "${place["img"]}",
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 12,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "${place["name"]}",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Icon(
-                            Icons.location_on,
-                            size: 15,
-                            color: Colors.blueGrey,
-                          ),
-                          Text(
-                            "${place["location"]}",
-                            style: TextStyle(color: Colors.blueGrey),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 12),
-                      Text("${place["price"]}"),
-                    ],
-                  )
-                ],
-              ),
-            );
+            return new PlaceWidget(place: place);
           }),
     );
   }
@@ -133,63 +90,34 @@ class _MyHomePageState extends State<MyHomePage> {
           scrollDirection: Axis.horizontal,
           itemCount: places.length,
           itemBuilder: (context, index) {
-            Map place = places.reversed.toList()[index];
+            Place location = places.reversed.toList()[index];
 
-            return Padding(
-              padding: EdgeInsets.only(right: 14),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(5),
-                    child: Container(
-                      decoration:
-                          BoxDecoration(borderRadius: BorderRadius.circular(5)),
-                      height: 178,
-                      width: 180,
-                      child: Image.asset(
-                        "${place["img"]}",
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  Text(
-                    "${place["name"]}",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "${place["location"]}",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: Colors.blueGrey,
-                    ),
-                  ),
-                ],
-              ),
-            );
+            return new LocationWidget(location: location);
           }),
     );
   }
 
-  Container buildSearchBox() {
-    TextEditingController controller =
-        TextEditingController(text: "Eg, New York, United States");
+  Widget buildSearchBox() {
+    TextEditingController controller = TextEditingController(text: '');
 
     return Container(
       decoration: BoxDecoration(
-//              border: I,
         color: Colors.white70,
         borderRadius: BorderRadius.circular(5),
       ),
       child: TextField(
-        key: Key("Search box"),
+        onTap: () {
+          final SnackBar snackbar = SnackBar(
+            content: Text('Writing in the search box'),
+            backgroundColor: Colors.black,
+          );
+
+          scaffoldKey.currentState.showSnackBar(snackbar);
+        },
+        key: Key('Search box'),
         controller: controller,
         decoration: InputDecoration(
-//                  fillColor: Colors.white10,
+            hintText: 'Eg, New York, United States',
             border: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.transparent),
               borderRadius: BorderRadius.circular(5),
@@ -199,20 +127,27 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Text buildText() {
+  Widget buildText() {
     return Text(
-      "Where are you \ngoing?",
+      'Where are you \ngoing?',
       style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
     );
   }
 
-  AppBar buildAppBar() {
+  Widget buildAppBar() {
     return AppBar(
       brightness: Brightness.light,
       elevation: 0.0,
       backgroundColor: Colors.white,
       leading: IconButton(
-        onPressed: () {},
+        onPressed: () {
+          final SnackBar snackbar = SnackBar(
+            content: Text('Hamburger menu tapped'),
+            backgroundColor: Colors.black,
+          );
+
+          scaffoldKey.currentState.showSnackBar(snackbar);
+        },
         icon: Icon(
           Icons.menu,
           color: Colors.black54,
@@ -220,7 +155,14 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       actions: <Widget>[
         IconButton(
-            onPressed: () {},
+            onPressed: () {
+              final SnackBar snackbar = SnackBar(
+                content: Text('Bell button tapped'),
+                backgroundColor: Colors.black,
+              );
+
+              scaffoldKey.currentState.showSnackBar(snackbar);
+            },
             icon: Icon(
               Icons.notifications,
               color: Colors.black54,
@@ -229,7 +171,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Material buildBottomNavigationBar(BuildContext context) {
+  Widget buildBottomNavigationBar(BuildContext context) {
     return Material(
       color: Colors.grey.shade50,
       elevation: 4.0,
