@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:workshop_test/placeWidget.dart';
-import 'locationWidget.dart';
+import 'package:workshop_test/place_widget.dart';
+import 'location_tile.dart';
 import 'places.dart';
 
 void main() => runApp(TravelAppWrapper());
@@ -101,7 +101,7 @@ class _TravelAppState extends State<TravelApp> {
           itemBuilder: (context, index) {
             Place location = places.reversed.toList()[index];
 
-            return new LocationWidget(location: location);
+            return new LocationTile(location: location);
           }),
     );
   }

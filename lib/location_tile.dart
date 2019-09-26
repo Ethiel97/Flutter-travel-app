@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:workshop_test/places.dart';
 
-class LocationWidget extends StatelessWidget {
-  const LocationWidget({
+class LocationTile extends StatelessWidget {
+  const LocationTile({
     Key key,
     @required this.location,
   }) : super(key: key);
