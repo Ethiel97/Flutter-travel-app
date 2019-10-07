@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:workshop_test/place_widget.dart';
-import 'location_tile.dart';
-import 'places.dart';
+import 'package:workshop_test/home_screen.dart';
 
 void main() => runApp(TravelAppWrapper());
 
@@ -14,7 +12,7 @@ class TravelAppWrapper extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Travel',
       theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Montserrat'),
-      home: TravelApp(title: 'Mon application'),
+      home: TravelApp(title: 'Flutter Travel App'),
     );
   }
 }
@@ -31,6 +29,26 @@ class TravelApp extends StatefulWidget {
 class _TravelAppState extends State<TravelApp> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
+  final List<Widget> _screens = [
+    HomeScreen(),
+    Container(
+      child: Center(
+        child: Text("Second Screen"),
+      ),
+    ),
+    Container(
+      child: Center(
+        child: Text("Third Screen"),
+      ),
+    ),
+    Container(
+      child: Center(
+        child: Text("Fourth Screen"),
+      ),
+    ),
+  ];
+  int _currentPage = 1;
+
   @override
   void initState() {
     super.initState();
@@ -41,13 +59,10 @@ class _TravelAppState extends State<TravelApp> {
         SystemUiOverlayStyle(statusBarColor: Colors.white));
   }
 
-  itemClicked() {
-    final SnackBar snackbar = SnackBar(
-      content: Text('Bottom navigation bar item tapped'),
-      backgroundColor: Colors.black,
-    );
-
-    scaffoldKey.currentState.showSnackBar(snackbar);
+  onItemClicked(int index) {
+    setState(() {
+      _currentPage = index;
+    });
   }
 
   @override
@@ -57,89 +72,7 @@ class _TravelAppState extends State<TravelApp> {
       bottomNavigationBar: buildBottomNavigationBar(context),
       appBar: buildAppBar(),
       backgroundColor: Colors.white,
-      body: ListView(
-        padding: EdgeInsets.all(28),
-        children: <Widget>[
-          buildText(),
-          SizedBox(
-            height: 34,
-          ),
-          buildSearchBox(),
-          SizedBox(
-            height: 28.0,
-          ),
-          buildLocationsList(),
-          buildPlacesList(context)
-        ],
-      ),
-    );
-  }
-
-  Container buildPlacesList(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      child: ListView.builder(
-          physics: ClampingScrollPhysics(),
-          shrinkWrap: true,
-          padding: EdgeInsets.only(bottom: 14),
-          itemCount: places.length,
-          itemBuilder: (context, index) {
-            Place place = places.toList()[index];
-
-            return new PlaceWidget(place: place);
-          }),
-    );
-  }
-
-  Container buildLocationsList() {
-    return Container(
-      height: 250,
-      child: ListView.builder(
-          physics: ClampingScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          itemCount: places.length,
-          itemBuilder: (context, index) {
-            Place location = places.reversed.toList()[index];
-
-            return new LocationTile(location: location);
-          }),
-    );
-  }
-
-  Widget buildSearchBox() {
-    TextEditingController controller = TextEditingController(text: '');
-
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white70,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: TextField(
-        onTap: () {
-          final SnackBar snackbar = SnackBar(
-            content: Text('Writing in the search box'),
-            backgroundColor: Colors.black,
-          );
-
-          scaffoldKey.currentState.showSnackBar(snackbar);
-        },
-        key: Key('Search box'),
-        controller: controller,
-        decoration: InputDecoration(
-            hintText: 'Eg, New York, United States',
-            border: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.transparent),
-              borderRadius: BorderRadius.circular(5),
-            ),
-            prefixIcon: Icon(Icons.location_on)),
-      ),
-    );
-  }
-
-  Widget buildText() {
-    return Text(
-      'Where are you \ngoing?',
-      style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
+      body: _screens[_currentPage],
     );
   }
 
@@ -151,14 +84,14 @@ class _TravelAppState extends State<TravelApp> {
       leading: IconButton(
         onPressed: () {
           final SnackBar snackbar = SnackBar(
-            content: Text('Hamburger menu tapped'),
+            content: Text('Account menu tapped'),
             backgroundColor: Colors.black,
           );
 
           scaffoldKey.currentState.showSnackBar(snackbar);
         },
         icon: Icon(
-          Icons.menu,
+          Icons.account_circle,
           color: Colors.black54,
         ),
       ),
@@ -181,7 +114,57 @@ class _TravelAppState extends State<TravelApp> {
   }
 
   Widget buildBottomNavigationBar(BuildContext context) {
-    return Material(
+    return BottomNavigationBar(
+      onTap: onItemClicked,
+      backgroundColor: Colors.grey.shade50,
+      selectedItemColor: Colors.blueGrey,
+      elevation: 4.0,
+      currentIndex: _currentPage,
+      items: [
+        BottomNavigationBarItem(
+            activeIcon: Icon(
+              Icons.home,
+              color: Colors.blueGrey,
+            ),
+            title: Text('Home'),
+            icon: Icon(
+              Icons.home,
+              color: Colors.black,
+            )),
+        BottomNavigationBarItem(
+            activeIcon: Icon(
+              Icons.favorite,
+              color: Colors.blueGrey,
+            ),
+            title: Text('Favs'),
+            icon: Icon(
+              Icons.favorite,
+              color: Colors.black,
+            )),
+        BottomNavigationBarItem(
+            activeIcon: Icon(
+              Icons.message,
+              color: Colors.blueGrey,
+            ),
+            title: Text('Comments'),
+            icon: Icon(
+              Icons.message,
+              color: Colors.black,
+            )),
+        BottomNavigationBarItem(
+            activeIcon: Icon(
+              Icons.person,
+              color: Colors.blueGrey,
+            ),
+            title: Text('Account'),
+            icon: Icon(
+              Icons.person,
+              color: Colors.black,
+            ))
+      ],
+    );
+
+    /*   Material(
       color: Colors.grey.shade50,
       elevation: 4.0,
       child: Container(
@@ -224,5 +207,6 @@ class _TravelAppState extends State<TravelApp> {
         ),
       ),
     );
+   */
   }
 }

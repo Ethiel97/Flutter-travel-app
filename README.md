@@ -18,4 +18,4 @@ samples, guidance on mobile development, and a full API reference.
 
 ## App Demo
 
-![Screenshot](flutter_06.png)
+![Screenshot](flutter_07.png)
