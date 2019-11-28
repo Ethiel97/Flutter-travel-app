@@ -113,6 +113,19 @@ class _TravelAppState extends State<TravelApp> {
     );
   }
 
+  buildBarItem(IconData icon, String title) {
+    return BottomNavigationBarItem(
+        activeIcon: Icon(
+          icon,
+          color: Colors.blueGrey,
+        ),
+        title: Text(title),
+        icon: Icon(
+          icon,
+          color: Colors.black,
+        ));
+  }
+
   Widget buildBottomNavigationBar(BuildContext context) {
     return BottomNavigationBar(
       onTap: onItemClicked,
@@ -121,92 +134,11 @@ class _TravelAppState extends State<TravelApp> {
       elevation: 4.0,
       currentIndex: _currentPage,
       items: [
-        BottomNavigationBarItem(
-            activeIcon: Icon(
-              Icons.home,
-              color: Colors.blueGrey,
-            ),
-            title: Text('Home'),
-            icon: Icon(
-              Icons.home,
-              color: Colors.black,
-            )),
-        BottomNavigationBarItem(
-            activeIcon: Icon(
-              Icons.favorite,
-              color: Colors.blueGrey,
-            ),
-            title: Text('Favs'),
-            icon: Icon(
-              Icons.favorite,
-              color: Colors.black,
-            )),
-        BottomNavigationBarItem(
-            activeIcon: Icon(
-              Icons.message,
-              color: Colors.blueGrey,
-            ),
-            title: Text('Comments'),
-            icon: Icon(
-              Icons.message,
-              color: Colors.black,
-            )),
-        BottomNavigationBarItem(
-            activeIcon: Icon(
-              Icons.person,
-              color: Colors.blueGrey,
-            ),
-            title: Text('Account'),
-            icon: Icon(
-              Icons.person,
-              color: Colors.black,
-            ))
+        buildBarItem(Icons.home, 'Home'),
+        buildBarItem(Icons.favorite, 'Favs'),
+        buildBarItem(Icons.message, 'Comments'),
+        buildBarItem(Icons.person, 'Account'),
       ],
     );
-
-    /*   Material(
-      color: Colors.grey.shade50,
-      elevation: 4.0,
-      child: Container(
-        padding: EdgeInsets.all(12),
-        width: MediaQuery.of(context).size.width,
-        height: 54,
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.home,
-                color: Colors.black,
-              ),
-              onPressed: () => itemClicked(),
-            ),
-            IconButton(
-              onPressed: () => itemClicked(),
-              icon: Icon(
-                Icons.favorite,
-                color: Colors.blueGrey,
-              ),
-            ),
-            IconButton(
-              onPressed: () => itemClicked(),
-              icon: Icon(
-                Icons.message,
-                color: Colors.blueGrey,
-              ),
-            ),
-            IconButton(
-              onPressed: () => itemClicked(),
-              icon: Icon(
-                Icons.person,
-                color: Colors.blueGrey,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-   */
   }
 }
